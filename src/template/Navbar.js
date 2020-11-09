@@ -10,7 +10,6 @@ const Navbar = () => {
             <div className='logo'>
                 <img src={logo} />
             </div>
-
             <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
                 <Menu.Item key="1">Pokemon Bank</Menu.Item>
                 <Menu.Item key="2">My Pokemon</Menu.Item>
