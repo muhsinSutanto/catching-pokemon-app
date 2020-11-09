@@ -1,11 +1,10 @@
 import './App.less';
 import { Button } from 'antd';
+import Home from './pages/Home';
 
 function App() {
   return (
-    <div className="App">
-       <Button type="primary">Primary Button</Button>
-    </div>
+    <Home/>
   );
 }
 
