@@ -16,6 +16,10 @@ const ROUTES = [
     {
         path: "/pokemon/:id",
         component: () => <PokemonDetail/>
+    },
+    {
+        path: "*",
+        component: () => <PageNotFound/>
     }
   ];
 
