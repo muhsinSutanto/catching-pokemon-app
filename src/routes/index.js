@@ -5,22 +5,24 @@ import PokemonDetail from '../pages/PokemonDetail'
 
 const ROUTES = [
     {
-      path: "/",
-      exact: true,
-      component: () => <Home/>
+        path: "/",
+        exact: true,
+        component: () => <Home />
     },
     {
-      path: "/my-pokemon",
-      component: () => <MyPokemon/>
+        path: "/my-pokemon",
+        exact: true,
+        component: () => <MyPokemon />
     },
     {
         path: "/pokemon/:id",
-        component: () => <PokemonDetail/>
-    },
-    {
-        path: "*",
-        component: () => <PageNotFound/>
+        exact: true,
+        component: () => <PokemonDetail />
     }
-  ];
+    // {
+    //     exact: false,
+    //     component: () => <PageNotFound />
+    // }
+];
 
 export default ROUTES
