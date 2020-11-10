@@ -1,17 +1,12 @@
-const  initialState = {
-    counter : 0
-}
+import {
+    combineReducers
+} from "redux"
 
-function rootReducer(state = initialState, action){
+import pokemonReducer from "./pokemonReducer"
 
-    switch(action.type){
-        case 'INCREMENT':
-            return { counter : state.counter + 1}
-        case 'DECREMENT':
-            return { counter : state.counter - 1}
-        default: 
-            return initialState
-    }
-}
 
-export default rootReducer
+const rootReducers = combineReducers({
+   pokemonReducer
+})
+
+export default rootReducers
