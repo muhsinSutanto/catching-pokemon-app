@@ -6,6 +6,11 @@ const  initialState = {
         number: '',
         next:'',
         previous:''
+    },
+    pokemonDetail: {
+        moves: [],
+        types: [],
+        image: ''
     }
 }
 
@@ -21,6 +26,15 @@ export default function(state = initialState, action){
                     previous: action.payload.previous
                 }
                 
+            }
+        case TYPES.GET_POKEMON_DETAIL: 
+            return{
+                ...state,
+                pokemonDetail: {
+                    moves: action.payload.moves,
+                    types: action.payload.types,
+                    image: action.payload.sprites.front_default
+                }
             }
         default: 
             return state

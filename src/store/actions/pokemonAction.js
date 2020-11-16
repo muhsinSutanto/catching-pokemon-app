@@ -14,6 +14,19 @@ const fetchPokemonList = () => (dispatch) => {
         .catch(err => console.log('err', err))
 }
 
+const fetPokemonDetail = (id) => (dispatch) => {
+    axios.get(`${ENV.BASE_URL}pokemon/${id}`)
+        .then((res) =>{
+            console.log('data', res)
+            dispatch({
+                type: TYPES.GET_POKEMON_DETAIL,
+                payload: res.data
+            })
+        })
+        .catch(err => console.log(err)) 
+}
+
 export {
-    fetchPokemonList
+    fetchPokemonList,
+    fetPokemonDetail
 }
