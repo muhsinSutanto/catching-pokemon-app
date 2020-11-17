@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { setToCage, fetPokemonDetail } from "../store/actions/pokemonAction";
+import { useRouteMatch, useHistory } from "react-router-dom";
 import {
-  setToCage,
-  fetPokemonDetail,
-} from "../store/actions/pokemonAction";
-import { useParams, Route, useRouteMatch, useHistory } from "react-router-dom";
+  Row,
+  Col,
+  Typography,
+  Image,
+  Button,
+  Modal,
+  Input,
+  Avatar,
+} from "antd";
 import Layout from "../template/Layout";
-import { Row, Col, Typography, Image, Button, List, Modal, Input } from "antd";
 import catchGif from "../assets/images/pokemon-gif.gif";
 import pokeBall from "../assets/images/pokemon-ball.png";
 import pokeBallEmp from "../assets/images/pokemon-ball-emphty.png";
@@ -19,6 +25,7 @@ const PokemonDetail = (props) => {
   const [modalName, setModalName] = useState(false);
   const [huntStatus, setHuntStatus] = useState("");
   const [newPoke, setNewPoke] = useState("");
+  const [emptPoke, setEmptPoke] = useState("")
 
   const dispatch = useDispatch();
   const pokemonDetail = useSelector((state) => state.pokemonDetail);
@@ -32,7 +39,6 @@ const PokemonDetail = (props) => {
     setModalVideo(true);
     setTimeout(() => {
       const result = Math.random() < 0.5;
-      console.log(result);
       if (result === false) {
         setModalVideo(false);
         setHuntStatus("failed");
@@ -52,36 +58,64 @@ const PokemonDetail = (props) => {
   };
 
   const handleSetToCage = async () => {
-    let data = {
-      newName: newPoke,
-      image: pokemonDetail.image,
-      name: match.params.id,
-    };
-
-    await dispatch(setToCage(data))
-    await history.push('/my-pokemon')
+    setEmptPoke('')
+    if(!!newPoke.length){
+        let data = {
+            newName: newPoke,
+            image: pokemonDetail.image,
+            name: match.params.id,
+          };
+      
+          await dispatch(setToCage(data));
+          await history.push("/my-pokemon");
+    }else{
+        setEmptPoke('Rename before you see the cage')
+    }
+   
   };
-
-  // console.log(pokemonDetail)
 
   return (
     <Layout>
       <Row>
-        <Col>
-          <Title>{match.params.id}</Title>
-          <Image src={pokemonDetail.image} />
-          <Button onClick={handleCatch}>CATCH NOW</Button>
+        <Title className="pd-20" level={2}>
+          Pokemon Detail
+        </Title>
+      </Row>
+      <Row justify="center">
+        <Col lg={4} xs={24}>
+          <Row style={{ flexFlow: "column" }} justify="center" align="middle">
+            <Avatar
+              style={{ backgroundColor: "#fde3cf" }}
+              size={200}
+              src={pokemonDetail.image}
+            />
+            <Button
+              style={{ marginTop: "16px" }}
+              type="primary"
+              onClick={handleCatch}
+            >
+              CATCH NOW
+            </Button>
+          </Row>
         </Col>
-        <Col>
-          <Title level={3}>INFO</Title>
-          <List>Name: {match.params.id}</List>
-          <List>type:</List>
-          {pokemonDetail.types.map((type) => (
-            <Text>{type.type.name} </Text>
-          ))}
-          <Title level={3}>Moves</Title>
+        <Col className="pd-20" lg={8}>
+          <Title level={3}>Info</Title>
+          <Row>
+            <Text>Name: {match.params.id} </Text>
+          </Row>
+          <Row>
+            <Text>
+              Types:{" "}
+              {pokemonDetail.types.map((type) => (
+                <span>{type.type.name} </span>
+              ))}{" "}
+            </Text>
+          </Row>
+          <Title style={{ marginTop: "24px" }} level={3}>
+            Moves
+          </Title>
           {pokemonDetail.moves.map((move) => (
-            <List>{move.move.name}</List>
+            <Text>{move.move.name} </Text>
           ))}
         </Col>
         {!!modalVideo && (
@@ -98,22 +132,28 @@ const PokemonDetail = (props) => {
           <Modal closable={false} footer={false} visible={modalName}>
             {huntStatus === "failed" ? (
               <React.Fragment>
-                <Image src={pokeBallEmp} />
-                <Text>Coba lagi</Text>
-                <Button onClick={handleCancel} type="danger">
-                  close
+                <Image className="mlr-10" src={pokeBallEmp} />
+                <Text className="mlr-10">Try Again</Text>
+                <Button className="mlr-10" onClick={handleCancel} type="danger">
+                  Close
                 </Button>
               </React.Fragment>
             ) : (
               <React.Fragment>
                 <Image src={pokeBall} />
-                <Text>Berhasil, beri nama pokemonmu</Text>
+                {!!emptPoke.length ? <Text style={{color:'red'}}>{emptPoke}</Text>: <Text className="mg-10">Awesome.., rename your Pokemon</Text>}
                 <Input
+                  className="mg-10"
                   value={newPoke}
                   onChange={(e) => setNewPoke(e.target.value)}
                 />
-                <Button onClick={handleSetToCage} type="primary">
-                  masukan ke kandang
+                
+                <Button
+                  className="mg-10"
+                  onClick={handleSetToCage}
+                  type="primary"
+                >
+                  See the cage
                 </Button>
               </React.Fragment>
             )}

@@ -2,17 +2,7 @@ import React, { useEffect } from "react";
 import Layout from "../template/Layout";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchMyPokemon, removePokemon } from "../store/actions/pokemonAction";
-import {
-  Button,
-  Card,
-  Col,
-  Row,
-  Skeleton,
-  Typography,
-  Image,
-  List,
-  Avatar,
-} from "antd";
+import { Button, Card, Col, Row, Skeleton, Typography, Avatar } from "antd";
 
 const MyPokemon = () => {
   const { Text, Title } = Typography;
@@ -25,41 +15,49 @@ const MyPokemon = () => {
   }, []);
 
   const handleRelease = (param) => {
-    // console.log(key)
-    dispatch(removePokemon(param))
-    
-  }
+    dispatch(removePokemon(param));
+  };
 
   const render = () => {
     if (myPokemons == null) {
       return <Skeleton paragraph={{ rows: 10 }} />;
     }
     if (!myPokemons.length) {
-      return <Title>You haven't caught any pokemon</Title>;
+      return (
+        <Title level={2} className="pd-20">
+          Sorry...... You haven't caught any pokemon
+        </Title>
+      );
     } else {
-      return myPokemons.map((pokemon, key) => (
-        <Card key={key}>
-          <Row align="middle">
-            <Col xs={{ span: 5 }} lg={{ span: 1 }}>
-              <Avatar
-                style={{ backgroundColor: "#fde3cf" }}
-                size={50}
-                src={pokemon.image}
-              />
-            </Col>
-            <Col xs={{ span: 5 }} lg={{ span: 1 }}>
-              <Text>{pokemon.newName}</Text>
-            </Col>
-            <Col>
-              <Button onClick={()=>handleRelease(key)}>Release</Button>
-            </Col>
-          </Row>
-        </Card>
-      ));
+      return (
+        <React.Fragment>
+          <Title className="pd-20" level={2}>
+            My Pokemons' Cage
+          </Title>
+          {myPokemons.map((pokemon, key) => (
+            <Card key={key}>
+              <Row align="middle">
+                <Col xs={{ span: 5 }} lg={{ span: 1 }}>
+                  <Avatar
+                    style={{ backgroundColor: "#fde3cf" }}
+                    size={50}
+                    src={pokemon.image}
+                  />
+                </Col>
+                <Col xs={{ span: 5 }} lg={{ span: 1 }}>
+                  <Text>{pokemon.newName}</Text>
+                </Col>
+                <Col>
+                  <Button type='primary' onClick={() => handleRelease(key)}>Release</Button>
+                </Col>
+              </Row>
+            </Card>
+          ))}
+        </React.Fragment>
+      );
     }
   };
 
-  console.log(myPokemons);
   return <Layout>{render()}</Layout>;
 };
 
