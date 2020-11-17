@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  fetcPokemonDetail,
+  setToCage,
   fetPokemonDetail,
 } from "../store/actions/pokemonAction";
-import { useParams, Route, useRouteMatch } from "react-router-dom";
+import { useParams, Route, useRouteMatch, useHistory } from "react-router-dom";
 import Layout from "../template/Layout";
 import { Row, Col, Typography, Image, Button, List, Modal, Input } from "antd";
 import catchGif from "../assets/images/pokemon-gif.gif";
@@ -13,6 +13,7 @@ import pokeBallEmp from "../assets/images/pokemon-ball-emphty.png";
 
 const PokemonDetail = (props) => {
   const { Text, Title } = Typography;
+  let history = useHistory();
 
   const [modalVideo, setModalVideo] = useState(false);
   const [modalName, setModalName] = useState(false);
@@ -50,18 +51,15 @@ const PokemonDetail = (props) => {
     setHuntStatus("");
   };
 
-  const handleSetToCage = () => {
+  const handleSetToCage = async () => {
     let data = {
       newName: newPoke,
       image: pokemonDetail.image,
       name: match.params.id,
     };
 
-    console.log(data);
-    let local = localStorage.getItem("test");
-    let exisData = local === null ? [] : JSON.parse(local);
-    let newData = exisData.concat(data);
-    localStorage.setItem("test", JSON.stringify(newData));
+    await dispatch(setToCage(data))
+    await history.push('/my-pokemon')
   };
 
   // console.log(pokemonDetail)

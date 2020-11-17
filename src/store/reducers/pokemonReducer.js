@@ -12,7 +12,7 @@ const  initialState = {
         types: [],
         image: ''
     },
-    myPokemons: []
+    myPokemons: null
 }
 
 export default function(state = initialState, action){
