@@ -11,7 +11,8 @@ const  initialState = {
         moves: [],
         types: [],
         image: ''
-    }
+    },
+    myPokemons: []
 }
 
 export default function(state = initialState, action){
@@ -35,6 +36,11 @@ export default function(state = initialState, action){
                     types: action.payload.types,
                     image: action.payload.sprites.front_default
                 }
+            }
+        case TYPES.GET_MY_POKEMON_LIST:
+            return{
+                ...state,
+                myPokemons: action.payload
             }
         default: 
             return state

@@ -19,7 +19,7 @@ const Home = () => {
         dispatch(fetchPokemonList())
     }, [])
 
-    console.log(pokemonDetail)
+    // console.log(poke)
 
     return (<Layout>
         <Row>

@@ -26,7 +26,30 @@ const fetPokemonDetail = (id) => (dispatch) => {
         .catch(err => console.log(err)) 
 }
 
+const setToCage = (data) => (dispatch) => {
+    let local = localStorage.getItem("test");
+    let exisData = local === null ? [] : JSON.parse(local);
+    let newData = exisData.concat(data);
+    localStorage.setItem("test", JSON.stringify(newData));
+
+    dispatch({
+        type: TYPES.GET_MY_POKEMON_LIST,
+        payload: newData
+    })
+}
+
+const fetchMyPokemon = () => (dispatch) => {
+    const data = localStorage.getItem("test")
+    dispatch({
+        type: TYPES.GET_MY_POKEMON_LIST,
+        payload: JSON.parse(data)
+    })
+
+}
+
 export {
     fetchPokemonList,
-    fetPokemonDetail
+    fetPokemonDetail,
+    setToCage,
+    fetchMyPokemon
 }
