@@ -17,7 +17,7 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "predeploy": "npm ru build",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "start": "craco start",
     "build": "craco build",
