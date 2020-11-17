@@ -1,4 +1,4 @@
-import './App.less';
+import './App.css';
 import ROUTES from './routes'
 import { Route, BrowserRouter } from 'react-router-dom';
 
